@@ -1,0 +1,6 @@
+export enum MessageID {
+	ADD_NEW_TASK,
+	REMOVE_TASK,
+	SAVE_TASK,
+	GET_TASKS
+}
