@@ -1,9 +1,8 @@
 {
-	"name": "qrcode",
-	"version": "0.0.2",
+	"name": "affinity-lab-project-boilerplate",
 	"private": true,
 	"author": {
-		"name": "Gergely Laborco",
+		"name": "Gergely Laborci",
 		"email": "gergely@laborci.hu"
 	},
 	"scripts": {
@@ -41,7 +40,6 @@
 		"bootstrap-icons": "^1.10.3",
 		"devalue": "^4.3.0",
 		"file-fetch": "^1.7.0",
-		"jsqr": "^1.4.0",
 		"mysql2": "^3.2.0",
 		"reflect-metadata": "^0.1.13",
 		"reformdata": "^0.2.2",
