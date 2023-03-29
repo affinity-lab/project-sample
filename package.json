@@ -1,6 +1,6 @@
 {
 	"name": "qrcode",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"private": true,
 	"author": {
 		"name": "Gergely Laborco",
@@ -37,6 +37,7 @@
 		"@affinity-lab/util": "^1.0.0",
 		"@types/file-fetch": "^1.6.3",
 		"@types/sharp": "^0.31.1",
+		"@zerodevx/svelte-toast": "^0.9.3",
 		"bootstrap-icons": "^1.10.3",
 		"devalue": "^4.3.0",
 		"file-fetch": "^1.7.0",

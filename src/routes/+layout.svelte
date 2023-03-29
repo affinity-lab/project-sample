@@ -3,10 +3,11 @@
 	import "bootstrap-icons/font/bootstrap-icons.scss"
 	import Header from "$lib/components/header.svelte";
 	import Footer from "$lib/components/footer.svelte";
+	import { SvelteToast } from '@zerodevx/svelte-toast'
 
 	export let data;
 </script>
-
+<SvelteToast />
 <main>
 	<Header session={data.session}/>
 	<section>

@@ -3,14 +3,11 @@
 // and what to do when importing types
 
 
+
 declare namespace App {
 	// interface Error {}
-	import type {NeptunUser} from "@affinity-lab/sk-mik-id-sso-client";
-	export type SessionData = undefined | {
-		[p: string]: any,
-		user?: NeptunUser
-	}
-	interface Locals {session: SessionData;}
-	interface PageData {session: SessionData;}
+	import type {SessionType} from "./lib/session-type";
+	interface Locals {session: SessionType;}
+	interface PageData {session: SessionType;}
 	// interface Platform {}
 }

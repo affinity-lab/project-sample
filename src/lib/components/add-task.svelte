@@ -1,15 +1,16 @@
 <script lang="ts">
 	import {messengers} from "../messaging/messengers";
 	import {Status} from "../messaging/status";
+	import {toast} from "@zerodevx/svelte-toast";
 
 	export let reload: () => void
 	let newTask = "";
 	const keyup = (event) => {
-		if (event.code === "Enter" && newTask !== "") {
+		if (event.keyCode === 13 && newTask !== "") {
 			messengers.task.add(newTask)
-				.on(Status.OK, () => console.log("Saved"))
+				.on(Status.OK, () => toast.push('Task added'))
 				.error((e) => console.log(e))
-				.finally(()=>{
+				.finally(() => {
 					reload();
 					newTask = "";
 				})
@@ -27,6 +28,7 @@
 		display: flex;
 		padding: 5px;
 		border-radius: 3px;
+		margin-left: 21px;
 
 		&:hover {
 			background-color: #0002;
@@ -43,6 +45,10 @@
 			background: transparent;
 			color: white;
 			outline: none;
+			&::placeholder {
+				color: #FFF6;
+				font-size: 11px;
+			}
 		}
 
 	}
