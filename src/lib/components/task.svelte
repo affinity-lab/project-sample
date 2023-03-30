@@ -4,6 +4,7 @@
 	import {Status} from "../messaging/status";
 	import {toast} from "@zerodevx/svelte-toast";
 	import {fileUrlProvider} from "$lib/services/file-url-provider.js";
+	import {dragAndDrop} from "../component-actions/drag-and-drop";
 
 	export let task: Task;
 	export let reload: () => void;
@@ -25,57 +26,26 @@
 			.send();
 	}
 
-	class DragAndDrop {
-		private dragOverCount = 0;
-
-		constructor(private node: HTMLElement, private grip: HTMLElement = undefined) {
-			grip.addEventListener("mousedown", () => node.draggable = true)
-			grip.addEventListener("mouseup", () => node.draggable = false)
-			node.addEventListener("dragend", () => node.draggable = false)
-			node.addEventListener("dragstart", (e) => e.dataTransfer.setData("text", JSON.stringify({id: parseInt(node.dataset["id"]), sequence: parseInt(node.dataset["sequence"])})))
-			node.addEventListener("drop", (e) => {
-				e.preventDefault();
-				node.classList.remove("drag-over");
-				let data = JSON.parse(e.dataTransfer.getData("text"));
-				let id = data.id;
-				let sequence = data.sequence;
-				if (id === node.dataset["id"]) return;
-				let to = parseInt(node.dataset["sequence"]);
-				if (to > sequence) to++
-				this.dragOverCount = 0;
-				messengers.task.reorder(id, to)
-					.on(Status.OK, () => toast.push('Task saved'))
-					.finally(reload)
-					.send();
-			})
-			node.addEventListener("dragover", (e) => e.preventDefault())
-			node.addEventListener("dragenter", (e) => {
-				e.preventDefault();
-				if (this.dragOverCount === 0) node.classList.add("drag-over");
-				this.dragOverCount++
-			})
-			node.addEventListener("dragleave", () => {
-				this.dragOverCount = Math.max(--this.dragOverCount, 0);
-				if (this.dragOverCount === 0) {
-					node.classList.remove("drag-over");
-				}
-			})
-		}
-	}
-
-	function dragAndDrop(node: HTMLElement, parameters: { grip: string }) {
-		new DragAndDrop(node, node.querySelector(parameters.grip))
-	}
-
 	function uploadImage(event) {
 		messengers.task.upload(task.id, event.target.files[0])
 			.finally(reload)
 			.send()
 	}
+
+	function reorder(id: number, to: number) {
+		messengers.task.reorder(id, to)
+			.on(Status.OK, () => toast.push('Task saved'))
+			.finally(reload)
+			.send();
+	}
 </script>
 
 
-<main use:dragAndDrop={{grip:"i.grip"}} data-id={task.id} data-sequence={task.sequence} class:drag-over={false}>
+<main use:dragAndDrop={{grip:"i.grip", reorder:reorder}}
+		data-id={task.id}
+		data-sequence={task.sequence}
+		class:drag-over={false}
+>
 	<i class="insert bi-arrow-right-short"></i>
 	<i class="grip bi-grid-3x2-gap"></i>
 	<i class:bi-check-square={task.status} class:bi-square={!task.status} on:click={changeStatus}></i>
@@ -108,7 +78,7 @@
 		}
 		i.grip {cursor: grab}
 
-		img{
+		img {
 			width: 24px;
 			height: 24px;
 			border-radius: 12px;

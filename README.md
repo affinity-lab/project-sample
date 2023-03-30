@@ -7,7 +7,7 @@ npm install
 cp .env.example .env
 ```
 
-Edit the `.env` file and setup a valid mysql connection:
+Edit the `.env` file and set up a valid mysql connection:
 
 ```env
 # TypeORM
